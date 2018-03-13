@@ -491,7 +491,7 @@ public class ContentReviewServiceTurnitinOC extends BaseContentReviewService {
 					return responseJSON.getInt("overall_match_percentage");
 				} else {
 					log.error("Report came back as complete, but without a score");
-					return -2;
+					return -3;
 				}
 
 			} else if (responseJSON.containsKey("status")
@@ -500,11 +500,11 @@ public class ContentReviewServiceTurnitinOC extends BaseContentReviewService {
 				return -1;
 			} else {
 				log.error("Something went wrong in the similarity report process: reportId " + reportId);
-				return -2;
+				return -3;
 			}
 		} else {
 			log.error("Submission status call failed: " + responseMessage);
-			return -2;
+			return -3;
 		}
 	}
 
@@ -620,7 +620,7 @@ public class ContentReviewServiceTurnitinOC extends BaseContentReviewService {
 				} else if (status == -1) {
 					// Similarity report is still generating, will try again
 					log.info("Processing report " + item.getExternalId() + "...");
-				} else if(status == -2){
+				} else if(status == - 3){
 					throw new Error("Unknown error during report status call");
 				}
 			} catch (Exception e) {
@@ -752,20 +752,28 @@ public class ContentReviewServiceTurnitinOC extends BaseContentReviewService {
 						continue;
 					case "UNSUPPORTED_FILETYPE":
 						errorStr = "The uploaded filetype is not supported";
+						break;
 					case "PROCESSING_ERROR":
 						errorStr = "An unspecified error occurred while processing the submissions";
+						break;
 					case "TOO_LITTLE_TEXT":
 						errorStr = "The submission does not have enough text to generate a Similarity Report (a submission must contain at least 20 words)";
+						break;
 					case "TOO_MUCH_TEXT":
 						errorStr = "The submission has too much text to generate a Similarity Report (after extracted text is converted to UTF-8, the submission must contain less than 2MB of text)";
+						break;
 					case "TOO_MANY_PAGES":
 						errorStr = "The submission has too many pages to generate a Similarity Report (a submission cannot contain more than 400 pages)";
+						break;
 					case "FILE_LOCKED":
 						errorStr = "The uploaded file requires a password in order to be opened";
+						break;
 					case "CORRUPT_FILE":
 						errorStr = "The uploaded file appears to be corrupt";
+						break;
 					case "ERROR":				
 						errorStr = "Submission returned with ERROR status";
+						break;
 					default:
 						log.info("Unknown submission status, will retry: " + submissionStatus);
 					}

@@ -3993,6 +3993,7 @@ public class AssignmentServiceImpl implements AssignmentService, EntityTransferr
         String iconCssClass = null;
 
         if (!"Error".equals(reviewReport)) {
+        		log.info("NO ERROR IN REPORT REVIEW - IS THIS CORRECT???");
             iconCssClass = contentReviewService.getIconCssClassforScore(reviewResult.getReviewScore(), reviewResult.getContentResource().getId());
         } else if (ContentReviewConstants.CONTENT_REVIEW_SUBMITTED_AWAITING_REPORT_CODE.equals(status) || ContentReviewConstants.CONTENT_REVIEW_NOT_SUBMITTED_CODE.equals(status)) {
             iconCssClass = "contentReviewIconPending";

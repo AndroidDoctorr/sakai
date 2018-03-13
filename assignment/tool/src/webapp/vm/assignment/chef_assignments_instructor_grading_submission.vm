@@ -202,7 +202,7 @@
                                 <div>
                                     #set ($props = $reviewResult.getContentResource().Properties)
                                     <span class="reportIcon">
-											#if (!$reviewResult.getReviewReport().equals("Error"))<a
+											#if (!$reviewResult.getReviewReport().equals("ERROR"))<a
                                                     href="$reviewResult.getReviewReport()" target="_blank">#end
                                         <span class="$reviewResult.getReviewIconCssClass()"
                                               title="#if($reviewResult.getReviewReport().equals(
