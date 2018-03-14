@@ -3984,16 +3984,27 @@ public class AssignmentServiceImpl implements AssignmentService, EntityTransferr
 
     private String getReviewIconCssClass(ContentReviewResult reviewResult) {
         if (reviewResult == null) {
-            log.debug("{} getReviewIconCssClass(ContentResource, int) called with reviewResult == null", reviewResult.getContentResource().getId());
+            log.debug("{} getReviewIconCssClass(ContentResource, int) called with reviewResult == null");
             return null;
         }
 
         Long status = reviewResult.getStatus();
         String reviewReport = reviewResult.getReviewReport();
         String iconCssClass = null;
+        
+        log.info("REVIEW REPORT: " + reviewReport);
+        if (reviewResult.getContentReviewItem() != null) {
+        		log.info("Last Result:");
+        		log.info("Last Error: " + reviewResult.getContentReviewItem().getLastError());
+        }
+        
+        log.info("review error: " + reviewResult.getReviewError());
+        log.info(((Integer) reviewResult.getReviewScore()).toString());
+        log.info("END OF INFO");
 
         if (!"Error".equals(reviewReport)) {
         		log.info("NO ERROR IN REPORT REVIEW - IS THIS CORRECT???");
+        		
             iconCssClass = contentReviewService.getIconCssClassforScore(reviewResult.getReviewScore(), reviewResult.getContentResource().getId());
         } else if (ContentReviewConstants.CONTENT_REVIEW_SUBMITTED_AWAITING_REPORT_CODE.equals(status) || ContentReviewConstants.CONTENT_REVIEW_NOT_SUBMITTED_CODE.equals(status)) {
             iconCssClass = "contentReviewIconPending";
@@ -4005,6 +4016,8 @@ public class AssignmentServiceImpl implements AssignmentService, EntityTransferr
     }
 
     private String getReviewReport(ContentResource cr, String assignmentReference) {
+    		log.info("GET REVIEW REPORT");
+    		// return "Error";
         if (cr == null) {
             log.debug("getReviewReport(ContentResource) called with cr == null"/*, this.getId()*/);
             return "Error";

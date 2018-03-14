@@ -240,6 +240,9 @@ public class ContentReviewServiceTurnitinOC extends BaseContentReviewService {
 		 * contentId:
 		 * /attachment/04bad844-493c-45a1-95b4-af70129d54d1/Assignments/b9872422-fb24-4f85-abf5-2fe0e069b251/plag.docx
 		 */
+		log.info("GET REVIEW REPORT INSTRUCTOR");
+		log.info(contentId);
+		log.info(userId);
 		return getViewerUrl(contentId, userId);
 	}
 
@@ -248,21 +251,21 @@ public class ContentReviewServiceTurnitinOC extends BaseContentReviewService {
 		return getViewerUrl(contentId, userId);
 	}
 	
-	private String getViewerUrl(String contentId, String viewUserId) throws QueueException {
+	private String getViewerUrl(String contentId, String viewUserId) throws QueueException, ReportException {
 		
 		// Set variables
 		String viewerUrl = null;
 		Optional<ContentReviewItem> optionalItem = crqs.getQueuedItem(getProviderId(), contentId);
 		ContentReviewItem item = optionalItem.isPresent() ? optionalItem.get() : null;
-		if(item != null && ContentReviewConstants.CONTENT_REVIEW_SUBMITTED_REPORT_AVAILABLE_CODE.equals(item.getStatus())) {
+		if (item != null && ContentReviewConstants.CONTENT_REVIEW_SUBMITTED_REPORT_AVAILABLE_CODE.equals(item.getStatus())) {
 			try {
 				//Get report owner user information
 				String givenName = "", familyName = "";
-				try{
+				try {
 					User user = userDirectoryService.getUser(item.getUserId());
 					givenName = user.getFirstName();
 					familyName = user.getLastName();
-				}catch (Exception e) {
+				} catch (Exception e) {
 					log.error(e.getMessage(), e);
 				}
 				Map<String, Object> data = new HashMap<String, Object>();
@@ -305,12 +308,13 @@ public class ContentReviewServiceTurnitinOC extends BaseContentReviewService {
 			} catch (Exception e) {
 				log.error(e.getLocalizedMessage(), e);
 			}
-		}else {
+		} else {
 			// Only generate viewerUrl if report is available
 			log.info("Content review item is not ready for the report: " + contentId + ", " + (item != null ? item.getStatus() : ""));
 		}
 	
-		return viewerUrl;
+		// ReportException e = new ReportException();
+		throw new ReportException("Cannot return viewer url - report is incomplete or contains an error");
 	}
 
 
