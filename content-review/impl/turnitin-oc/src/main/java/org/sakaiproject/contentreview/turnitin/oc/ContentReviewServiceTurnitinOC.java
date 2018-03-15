@@ -236,7 +236,7 @@ public class ContentReviewServiceTurnitinOC extends BaseContentReviewService {
 		return null;
 	}
 	
-	public String getReviewReportRedirectUrl(String contentId, String assignmentRef, String userId, boolean isInstructor) {
+	public String getReviewReportRedirectUrl(String contentId, String assignmentRef, String userId, boolean isInstructor) throws ReportException {
 		
 		// Set variables
 		String viewerUrl = null;
@@ -298,7 +298,7 @@ public class ContentReviewServiceTurnitinOC extends BaseContentReviewService {
 			log.info("Content review item is not ready for the report: " + contentId + ", " + (item != null ? item.getStatus() : ""));
 		}
 	
-		return viewerUrl;
+		throw new ReportException("Cannot return viewer url - report is incomplete or contains an error");
 	}
 
 

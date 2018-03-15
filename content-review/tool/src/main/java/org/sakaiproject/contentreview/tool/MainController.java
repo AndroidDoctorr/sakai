@@ -56,10 +56,10 @@ public class MainController {
 	public String viewReport(Model model, @RequestParam String contentId, @RequestParam String assignmentRef) {
 		//TODO: does this work for federated course properties override?
 		log.info("viewReport(): contentId: " + contentId + ", assignmentRef: " + assignmentRef);
-		if(sessionManager != null && sessionManager.getCurrentSession() != null
+		if (sessionManager != null && sessionManager.getCurrentSession() != null
 				&& StringUtils.isNotEmpty(sessionManager.getCurrentSessionUserId())) {
 			boolean isInstructor = hasInstructorPermissions(assignmentRef);
-			if(!isInstructor && !hasStudentPermission(assignmentRef, contentId)) {
+			if (!isInstructor && !hasStudentPermission(assignmentRef, contentId)) {
 				//this user doesn't have access to view this item
 				throw new SecurityException("A valid session ID with access to the content item is required");
 			}

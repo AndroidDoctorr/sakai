@@ -289,7 +289,8 @@ public class ContentReviewFederatedServiceImpl extends BaseContentReviewService 
 	}
 	
 	@Override
-	public String getReviewReportRedirectUrl(String contentId, String assignmentRef, String userId, boolean isInstructor) {
+	public String getReviewReportRedirectUrl(String contentId, String assignmentRef, String userId, boolean isInstructor) 
+		throws ReportException {
 		return getSelectedProvider().getReviewReportRedirectUrl(contentId, assignmentRef, userId, isInstructor);
 	}
 

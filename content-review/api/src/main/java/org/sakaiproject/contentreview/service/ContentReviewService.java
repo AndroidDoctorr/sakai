@@ -394,6 +394,7 @@ public interface ContentReviewService {
 	 * @param userId
 	 * @param isInstructor
 	 * @return
+	 * @throws ReportException 
 	 */
-	public String getReviewReportRedirectUrl(String contentId, String assignmentRef, String userId, boolean isInstructor);
+	public String getReviewReportRedirectUrl(String contentId, String assignmentRef, String userId, boolean isInstructor) throws ReportException;
 }
