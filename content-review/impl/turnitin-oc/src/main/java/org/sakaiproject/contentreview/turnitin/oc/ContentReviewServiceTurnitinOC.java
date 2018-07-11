@@ -147,6 +147,11 @@ public class ContentReviewServiceTurnitinOC extends BaseContentReviewService {
 	private static final String ALL_SOURCES = "all_sources";
 	private static final String MODES = "modes";
 	private static final String SIMILARITY = "similarity";
+	private static final String VIEWER_DEFAULT_PERMISSIONS = "viewer_default_permissions_set";
+	private static final String INSTRUCTOR = "INSTRUCTOR";
+	private static final String LEARNER = "LEARNER";
+	private static final String VIEW_FULL_SOURCE = "may_view_submission_full_source";
+	private static final String VIEWER_PERMISSIONS = "viewer_permissions";
 	
 	private static final String GENERATE_REPORTS_IMMEDIATELY_AND_ON_DUE_DATE= "1";
 	private static final String GENERATE_REPORTS_ON_DUE_DATE = "2";	
@@ -483,6 +488,13 @@ public class ContentReviewServiceTurnitinOC extends BaseContentReviewService {
 				modes.put(ALL_SOURCES, Boolean.TRUE);
 				similarity.put(MODES, modes);
 				data.put(SIMILARITY, similarity);
+				log.error("VIEWER PERMISSIONS CHECK");
+				log.error("INSTRUCTOR? " + isInstructor);
+				Map<String, Object> permissions = new HashMap<String, Object>();
+				data.put(VIEWER_DEFAULT_PERMISSIONS, isInstructor ? INSTRUCTOR : LEARNER);
+				permissions.put(VIEW_FULL_SOURCE, isInstructor);
+				data.put(VIEWER_PERMISSIONS, permissions);
+				
 
 				// Check user preference for locale			
 				// If user has no preference set - get the system default
